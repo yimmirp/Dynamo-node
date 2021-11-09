@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Course</title>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <%- include('partials/navbar'); %>
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+        <%- include('partials/navigation'); %>
+            <div class="container ">
+
+                <div class="form-container  mt-5 ">
+                    <div class="form-form">
+
+                        <div class="form-container">
+                            <div class="form-content">
+                                <div class="form text-left">
+                                    <div id="username-field" class="field-wrapper input mb-2">
+                                        <label for="codigo">CODIGO DE CURSO</label>
+                                        <input id="codigo" name="codigo" type="text" class="form-control"
+                                            placeholder="0957">
+                                    </div>
+                                    <div id="email-field" class="field-wrapper input mb-2">
+                                        <label for="name">NOMBRE CURSO</label>
+                                        <input id="name" name="name" type="text" value="" class="form-control"
+                                            placeholder="Introduccion a la Progamacion 1">
+                                    </div>
+                                    <div id="email-field" class="field-wrapper input mb-2">
+                                        <label for="creditosn">CREDITOS NECESARIOS</label>
+                                        <input id="creditosn" name="creditosn" type="text" value="" class="form-control"
+                                            placeholder="100">
+                                    </div>
+
+                                     <div id="email-field" class="field-wrapper input mb-2">
+                                        <label for="creditoso">CREDITOS OTORGADOS</label>
+                                        <input id="creditoso" name="creditoso" type="text" value="" class="form-control"
+                                            placeholder="3">
+                                    </div>
+
+                                 
+
+                                    <div class="row mt-3">
+                                        <div class="col-12 mt-2">
+                                            <button type="button" id="save" class="btn btn-primary btn-block"
+                                                value="">Save Course</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+
+    <%- include('partials/script'); %>
+
+        <script>
+        
+
+
+            $("#save").on("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/endpoint/newCourse",
+                    data: {
+                        codigo: $("#codigo").val(),
+                        name: $("#name").val(),
+                        creditosn: $("#creditosn").val(),
+                        creditoso: $("#creditoso").val()
+                    },
+                    success: function (response) {
+                        $("#codigo").val("")
+                        $("#name").val("")
+                        $("#creditosn").val("")
+                        $("#creditoso").val("")
+                        Snackbar.show({
+                            text: 'Course Saved',
+                            pos: 'bottom-right',
+                            actionTextColor: '#fff',
+                            backgroundColor: '#8dbf42'
+                        });
+                    },
+                    error: function () {
+                        alert('Error occured');
+                    }
+                });
+            });
+
+
+            $(document).ready(function () {
+                App.init();
+
+            });
+        </script>
+</body>
+
+</html>

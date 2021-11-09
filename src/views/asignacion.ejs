@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignacion</title>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <%- include('partials/navbar'); %>
+        <!--  BEGIN MAIN CONTAINER  -->
+        <div class="main-container" id="container">
+            <%- include('partials/navigation'); %>
+                <div class="container ">
+                    <div class="form-container  mt-5 ">
+                        <div class="form-form">
+                            <div class="form-container">
+                                <div class="form-content">
+                                    <div class="form text-left">
+                                        <div id="username-field1" class="field-wrapper input mb-2">
+                                            <label for="student">ESTUDIANTE</label>
+                                            
+                                            <select id="student" class="form-control  basic">
+                                                <option value="0" selected="selected">Seleccionar Estudiante</option>
+                                                <% Estudiantes.forEach(function(EstudiantesResults) { %>
+                                                    <option value="<%= EstudiantesResults.carnet['S'] %>"><%= EstudiantesResults.nombre['S'] %></option>
+                                                 <% }); %> 
+                                            </select>
+                                        </div>
+
+                                        <div id="username-field2" class="field-wrapper input mb-2">
+                                            <label for="course">CURSO</label>
+                                            
+                                            <select id="course" class="form-control  basic">
+                                                <option value="0" selected="selected">Seleccionar Curso</option>
+                                                <% Cursos.forEach(function(CursosResults) { %>
+                                                    <option value="<%= CursosResults.codigo['S'] %>"><%= CursosResults.nombrecurso['S'] %></option>
+                                                 <% }); %> 
+                                            </select>
+                                        </div>
+                                      
+                                        <div id="username-field3" class="field-wrapper input mb-2">
+                                            <label for="periodo">PERIODO</label>
+                                            <select id="periodo" class="form-control  basic">
+                                                <option value="PRIMER SEMESTRE" selected="selected">PRIMER SEMESTRE</option>
+                                                <option value="SEGUNDO SEMESTRE">SEGUNDO SEMESTRE</option>
+                                            </select>
+                                        </div>
+                                       
+                                        <div class="row mt-3">
+                                            <div class="col-12 mt-2">
+                                                <button type="button" id="save" class="btn btn-primary btn-block"
+                                                    value="">Guardar Asignacion</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+        <%- include('partials/script'); %>
+
+            <script>
+
+
+
+                $("#save").on("click", function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/endpoint/newAsignacion",
+                        data: {
+                            student: $("#student").val(),
+                            curso: $("#course").val(),
+                            periodo: $("#periodo").val(),
+                        },
+                        success: function (response) {
+                            $("#student").val("")
+                            $("#course").val("")
+                            $("#periodo").val("")
+                            Snackbar.show({
+                                text: 'Course Saved',
+                                pos: 'bottom-right',
+                                actionTextColor: '#fff',
+                                backgroundColor: '#8dbf42'
+                            });
+                        },
+                        error: function () {
+                            alert('Error occured');
+                        }
+                    });
+                
+
+                
+                });
+
+
+                $(document).ready(function () {
+                    App.init();
+
+                });
+            </script>
+</body>
+
+</html>
